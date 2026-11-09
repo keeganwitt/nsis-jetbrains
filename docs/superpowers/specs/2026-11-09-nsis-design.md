@@ -3,8 +3,9 @@
 Implement the user-approved fresh native Kotlin plugin for .nsi/.nsh editing, using
 JFlex and Grammar-Kit, shared platform APIs, and conservative cross-file analysis.
 Target platform branches 262–263, Java 25, and validate IDEA 2026.3 and Rider
-2026.2.4.1. No compilation, full preprocessing, rename, formatting, remote creation,
-or publication. Display name NSIS Language Support; ID dev.nsis.jetbrains; MIT.
+2026.2.4.1. No compilation, full preprocessing, rename, formatting, or Marketplace
+publication. Display name NSIS Language Support; ID dev.nsis.jetbrains; MIT.
+Repository: https://github.com/keeganwitt/nsis-jetbrains.
 
 The language target is NSIS 3 only; NSIS 2 compatibility is outside scope.
 
