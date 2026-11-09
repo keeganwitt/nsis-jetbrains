@@ -28,7 +28,7 @@ performed. Other compatible JetBrains products have not been individually verifi
 
 ## Install
 
-1. Disable the old **NSIS plugin** (`com.krylysov.nsisplugin`) if installed. Both plugins associate the same extensions.
+1. Disable any other NSIS plugins to avoid conflicts over `.nsi` and `.nsh` files.
 2. Open **Settings → Plugins → gear menu → Install Plugin from Disk**.
 3. Select `nsis-language-support-0.1.0.zip` from the build output, then restart if prompted.
 4. Open an `.nsi` or `.nsh` file. If it was associated with plain text, use **Associate with File Type → NSIS**.
@@ -95,7 +95,6 @@ reports; this does not disable compatibility checks.
 
 ## References and license
 
-New implementation under the [MIT license](LICENSE). No implementation was copied
-from the archived [intellij-nsis](https://github.com/akrylysov/intellij-nsis) plugin.
+Licensed under the [MIT license](LICENSE).
 Command names and language behavior follow the official NSIS [scripting reference](https://nsis.sourceforge.io/Docs/Chapter4.html)
 and [preprocessor reference](https://nsis.sourceforge.io/Docs/Chapter5.html).
