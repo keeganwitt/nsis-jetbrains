@@ -13,7 +13,7 @@ This file records executed checks, separately from configured CI checks.
 | Headless Rider startup and settings search-index generation | Passed during packaging |
 | Independent source review | Five regressions reproduced and fixed; no deferred findings |
 
-The tests use physical virtual-filesystem fixtures and exercise both NSIS 2 and 3
+The tests use physical virtual-filesystem fixtures and exercise NSIS 3
 syntax, with no NSIS compiler installed. SDK include lookup is tested with an
 optional SDK directory fixture. This verifies editing behavior, not compilation of
 the example installers.

@@ -4,13 +4,11 @@ Native [NSIS](https://nsis.sourceforge.io/) editing support for JetBrains IDEs.
 Recognizes `.nsi` installer scripts and `.nsh` headers. No compiler or NSIS SDK is
 required for basic editing.
 
-NSIS 3 is the primary language reference. Shared NSIS 2 syntax and legacy forms
-are accepted; the editor does not flag commands as invalid for a compiler version.
-The completion catalog includes NSIS 3 additions such as `Unicode` and UTF-16 file
-instructions. It is not filtered to an NSIS 2 compiler. See the NSIS 2 and NSIS 3
-scripts in `examples/` and the official [release notes](https://nsis.sourceforge.io/Docs/AppendixF.html).
-Configure legacy script encodings through the IDE's file-encoding controls; the
-plugin does not infer compiler-specific encoding or ANSI/Unicode defaults.
+Targets NSIS 3. The completion catalog follows the NSIS 3 command reference,
+including `Unicode` and UTF-16 file instructions. See `examples/nsis3.nsi` and the
+official [release notes](https://nsis.sourceforge.io/Docs/AppendixF.html).
+Configure script encodings through the IDE's file-encoding controls; the plugin
+does not infer compiler-specific encoding or ANSI/Unicode defaults.
 
 ## Features
 

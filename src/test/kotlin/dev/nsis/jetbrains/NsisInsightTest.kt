@@ -238,13 +238,8 @@ class NsisInsightTest : BasePlatformTestCase() {
         assertTrue(errors().isEmpty())
     }
 
-    fun testNsis2AndNsis3SyntaxAndUnicodeText() {
-        for (text in listOf(
-            "!include MUI.nsh\nSetCompressor /SOLID lzma\nName `Legacy ANSI`\nSection Install\nnsExec::Exec 'app.exe'\nSectionEnd\n",
-            "Unicode true\nManifestDPIAware true\nManifestLongPathAware true\nName \"café ${'$'}{U+263A}\"\nSection Install\nFileWriteUTF16LE ${'$'}0 \"Welcome${'$'}\\r${'$'}\\n\"\nSectionEnd\n"
-        )) {
-            script(text)
-            assertTrue(errors().isEmpty())
-        }
+    fun testNsis3SyntaxAndUnicodeText() {
+        script("Unicode true\nManifestDPIAware true\nManifestLongPathAware true\nName \"café ${'$'}{U+263A}\"\nSection Install\nFileWriteUTF16LE ${'$'}0 \"Welcome${'$'}\\r${'$'}\\n\"\nSectionEnd\n")
+        assertTrue(errors().isEmpty())
     }
 }
