@@ -1,0 +1,16 @@
+{
+    parserClass="dev.nsis.jetbrains.parser.NsisParser"
+    psiClassPrefix="Nsis"
+    psiImplClassSuffix="Impl"
+    psiPackage="dev.nsis.jetbrains.psi"
+    psiImplPackage="dev.nsis.jetbrains.psi.impl"
+    elementTypeHolderClass="dev.nsis.jetbrains.psi.NsisTypes"
+    elementTypeClass="dev.nsis.jetbrains.NsisElementType"
+    tokenTypeClass="dev.nsis.jetbrains.NsisTokenType"
+}
+
+file ::= (statement | NEWLINE)*
+statement ::= atom+
+atom ::= WORD | DIRECTIVE | VARIABLE | DEFINE_REF | LANG_REF | STRING | UNTERMINATED_STRING | SYMBOL {
+    mixin="dev.nsis.jetbrains.NsisAtomMixin"
+}

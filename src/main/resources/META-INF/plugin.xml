@@ -1,0 +1,24 @@
+<idea-plugin>
+    <id>dev.nsis.jetbrains</id>
+    <name>NSIS Language Support</name>
+    <vendor>NSIS Language Support contributors</vendor>
+    <description><![CDATA[
+        Native editing support for NSIS installer scripts and headers: syntax highlighting,
+        completion, declaration navigation, folding, structure view, and conservative diagnostics.
+        No NSIS compiler or SDK is required for basic editing.
+    ]]></description>
+    <depends>com.intellij.modules.platform</depends>
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="NSIS" language="NSIS" implementationClass="dev.nsis.jetbrains.NsisFileType" fieldName="INSTANCE" extensions="nsi;nsh"/>
+        <lang.parserDefinition language="NSIS" implementationClass="dev.nsis.jetbrains.NsisParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="NSIS" implementationClass="dev.nsis.jetbrains.editor.NsisSyntaxHighlighterFactory"/>
+        <colorSettingsPage implementation="dev.nsis.jetbrains.editor.NsisColorSettingsPage"/>
+        <lang.commenter language="NSIS" implementationClass="dev.nsis.jetbrains.editor.NsisCommenter"/>
+        <lang.foldingBuilder language="NSIS" implementationClass="dev.nsis.jetbrains.editor.NsisFoldingBuilder"/>
+        <lang.psiStructureViewFactory language="NSIS" implementationClass="dev.nsis.jetbrains.editor.NsisStructureViewFactory"/>
+        <completion.contributor language="NSIS" implementationClass="dev.nsis.jetbrains.editor.NsisCompletionContributor"/>
+        <psi.referenceContributor language="NSIS" implementation="dev.nsis.jetbrains.model.NsisReferenceContributor"/>
+        <annotator language="NSIS" implementationClass="dev.nsis.jetbrains.editor.NsisAnnotator"/>
+        <projectConfigurable id="dev.nsis.jetbrains.settings" displayName="NSIS" parentId="language" instance="dev.nsis.jetbrains.settings.NsisConfigurable"/>
+    </extensions>
+</idea-plugin>
