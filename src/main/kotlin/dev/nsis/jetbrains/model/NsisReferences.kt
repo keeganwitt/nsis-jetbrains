@@ -13,6 +13,7 @@ import com.intellij.psi.ResolveResult
 import com.intellij.psi.PsiManager
 import com.intellij.util.ProcessingContext
 import dev.nsis.jetbrains.NsisFile
+import dev.nsis.jetbrains.NsisAtomMixin
 import dev.nsis.jetbrains.psi.NsisAtom
 
 data class NsisInterpolation(val name: String, val kind: SymbolKind, val range: TextRange)
@@ -48,16 +49,32 @@ object NsisInterpolations {
 
 object NsisReferenceKinds {
     fun operandKind(line: NsisLine, operandIndex: Int): SymbolKind? = when (line.command) {
-        "!insertmacro", "!ifmacrodef", "!ifmacrondef", "!macroundef" -> if (operandIndex == 0) SymbolKind.MACRO else null
-        "!ifdef", "!ifndef", "!undef" -> if (operandIndex == 0) SymbolKind.DEFINE else null
+        "!insertmacro", "!macroundef" -> if (operandIndex == 0) SymbolKind.MACRO else null
+        "!ifmacrodef", "!ifmacrondef" -> if (operandIndex % 2 == 0) SymbolKind.MACRO else null
+        "!ifdef", "!ifndef" -> if (operandIndex % 2 == 0) SymbolKind.DEFINE else null
+        "!undef" -> if (line.operands.getOrNull(operandIndex)?.value?.startsWith('/') == false) SymbolKind.DEFINE else null
+        "!else" -> when (line.operands.firstOrNull()?.value?.lowercase()) {
+            "ifdef", "ifndef" -> if (operandIndex % 2 == 1) SymbolKind.DEFINE else null
+            "ifmacrodef", "ifmacrondef" -> if (operandIndex % 2 == 1) SymbolKind.MACRO else null
+            else -> null
+        }
         "call" -> if (operandIndex == 0) {
             if (line.operands.firstOrNull()?.value?.startsWith(':') == true) SymbolKind.LABEL else SymbolKind.FUNCTION
         } else null
         "getfunctionaddress" -> if (operandIndex == 1) SymbolKind.FUNCTION else null
+        "page", "uninstpage" -> {
+            val lastCallback = if (line.operands.firstOrNull()?.value.equals("custom", true)) 2 else 3
+            if (operandIndex in 1..lastCallback) SymbolKind.FUNCTION else null
+        }
+        "pagecallbacks" -> if (operandIndex in 0..2) SymbolKind.FUNCTION else null
         "getlabeladdress" -> if (operandIndex == 1) SymbolKind.LABEL else null
         "goto" -> if (operandIndex == 0) SymbolKind.LABEL else null
         "ifabort", "iferrors", "ifrebootflag", "ifsilent", "ifshellvarcontextall", "ifrtllanguage" -> if (operandIndex in 0..1) SymbolKind.LABEL else null
         "iffileexists" -> if (operandIndex in 1..2) SymbolKind.LABEL else null
+        "messagebox" -> {
+            val firstJump = if (line.operands.getOrNull(2)?.value.equals("/SD", true)) 5 else 3
+            if (operandIndex == firstJump || operandIndex == firstJump + 2) SymbolKind.LABEL else null
+        }
         "strcmp", "strcmps" -> if (operandIndex in 2..3) SymbolKind.LABEL else null
         "intcmp", "intcmpu", "int64cmp", "int64cmpu", "intptrcmp", "intptrcmpu" -> if (operandIndex in 2..4) SymbolKind.LABEL else null
         else -> null
@@ -105,6 +122,8 @@ class NsisSymbolReference(element: NsisAtom, range: TextRange, private val name:
             .map { PsiElementResolveResult(it.element) }.toTypedArray()
     }
     override fun getVariants(): Array<Any> = emptyArray()
+    override fun handleElementRename(newElementName: String): PsiElement =
+        (element as NsisAtomMixin).replaceText(rangeInElement.startOffset, rangeInElement.endOffset, newElementName)
 }
 
 class NsisIncludeReference(element: NsisAtom, range: TextRange, private val line: NsisLine, private val argument: NsisArgument) :

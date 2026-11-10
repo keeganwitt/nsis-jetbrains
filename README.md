@@ -19,6 +19,8 @@ does not infer compiler-specific encoding or ANSI/Unicode defaults.
 - Command-specific argument completion for flags, registry roots, enumerated values and combined MessageBox flags.
 - Literal include-path completion using the same ordered search directories as navigation.
 - Go to definition for functions, labels, macros, defines, user variables and literal includes.
+- Find Usages and rename for literal functions, labels, macros, defines, user variables and macro parameters, including references across literal includes.
+- Automatic indentation and conservative formatting for native blocks, preprocessor conditionals and common LogicLib blocks.
 - Function-local and section-local labels, macro parameters, and multiple navigation targets for ambiguous definitions.
 - Function, section and macro structure view; block folding; line and block comments.
 - Conservative diagnostics for unterminated strings/comments and clearly unmatched blocks.
@@ -41,6 +43,20 @@ last. Relative settings paths are relative to the project directory. An SDK is
 optional and is never executed.
 
 Use **Settings → Editor → Color Scheme → NSIS** to customize highlighting.
+Use **Settings → Editor → Code Style → NSIS** to configure indentation and tabs.
+
+Use **Find Usages** (Alt+F7), **Rename** (Shift+F6) and **Reformat Code**
+(Ctrl+Alt+L) with the default Windows keymap. Rename updates resolved code
+references, including interpolations inside strings, while preserving quotes,
+variable/define syntax and label colons. Ambiguous references and name collisions
+block rename. Generated names and references requiring macro expansion remain
+outside refactoring support.
+
+Formatting preserves existing line breaks, blank lines, strings and comment
+contents. It normalizes spacing between arguments and indents recognized blocks.
+Continued statements and multiline tokens retain their internal whitespace;
+their first line can still be indented. Unknown macro commands do not introduce
+indentation levels. Automatic indentation also applies when pressing Enter.
 
 ## Command assistance
 
@@ -92,8 +108,8 @@ are suppressed in files with conditionals, macros, macro calls, or includes beca
 those constructs can generate block boundaries. Lexical diagnostics still apply.
 Header files (`.nsh`) can be fragments of another script, so they also suppress
 standalone block-boundary diagnostics.
-The plugin does not run `makensis` or execute preprocessor commands. Compilation,
-rename refactoring, automatic formatting and full preprocessing are outside v0.1.
+The plugin does not run `makensis` or execute preprocessor commands. Compilation
+and full preprocessing remain outside the plugin's scope.
 
 ## Develop
 

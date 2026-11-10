@@ -22,6 +22,12 @@
         <codeInsight.parameterInfo language="NSIS" implementationClass="dev.nsis.jetbrains.editor.NsisParameterInfoHandler"/>
         <psi.referenceContributor language="NSIS" implementation="dev.nsis.jetbrains.model.NsisReferenceContributor"/>
         <annotator language="NSIS" implementationClass="dev.nsis.jetbrains.editor.NsisAnnotator"/>
+        <lang.findUsagesProvider language="NSIS" implementationClass="dev.nsis.jetbrains.editor.NsisFindUsagesProvider"/>
+        <referencesSearch implementation="dev.nsis.jetbrains.editor.NsisReferencesSearch"/>
+        <renamePsiElementProcessor implementation="dev.nsis.jetbrains.editor.NsisRenameProcessor"/>
+        <lang.namesValidator language="NSIS" implementationClass="dev.nsis.jetbrains.editor.NsisNamesValidator"/>
+        <lang.formatter language="NSIS" implementationClass="dev.nsis.jetbrains.editor.NsisFormattingModelBuilder"/>
+        <langCodeStyleSettingsProvider implementation="dev.nsis.jetbrains.editor.NsisCodeStyleSettingsProvider"/>
         <projectConfigurable id="dev.nsis.jetbrains.settings" displayName="NSIS" parentId="language" instance="dev.nsis.jetbrains.settings.NsisConfigurable"/>
     </extensions>
 </idea-plugin>
