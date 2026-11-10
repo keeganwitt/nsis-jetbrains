@@ -14,6 +14,10 @@ does not infer compiler-specific encoding or ANSI/Unicode defaults.
 
 - Highlighting for commands, directives, strings, interpolation, comments, variables and labels.
 - Context-sensitive completion for built-in commands, directives and variables, plus visible declarations.
+- Quick Documentation for built-ins, with offline signatures, argument descriptions and examples for common commands.
+- Parameter Info with the current argument highlighted, including optional switches and continued statements.
+- Command-specific argument completion for flags, registry roots, enumerated values and combined MessageBox flags.
+- Literal include-path completion using the same ordered search directories as navigation.
 - Go to definition for functions, labels, macros, defines, user variables and literal includes.
 - Function-local and section-local labels, macro parameters, and multiple navigation targets for ambiguous definitions.
 - Function, section and macro structure view; block folding; line and block comments.
@@ -37,6 +41,34 @@ last. Relative settings paths are relative to the project directory. An SDK is
 optional and is never executed.
 
 Use **Settings → Editor → Color Scheme → NSIS** to customize highlighting.
+
+## Command assistance
+
+Use **Quick Documentation** (Ctrl+Q) on a command or selected command completion
+item, and **Parameter Info** (Ctrl+P) while entering its arguments, with the default
+Windows keymap. Parameter Info follows the caret through quoted arguments,
+optional switches and continued statements. It does not add persistent inlay
+labels or automatically open on every space.
+
+Detailed offline documentation and parameter signatures cover these 29 commands:
+`File`, `Exec`, `ExecWait`, `ExecShell`, `MessageBox`, `ReadRegStr`, `ReadRegDWORD`,
+`WriteRegStr`, `WriteRegDWORD`, `DeleteRegKey`, `DeleteRegValue`, `SetRegView`,
+`SetOutPath`, `StrCpy`, `StrCmp`, `IntCmp`, `Goto`, `Call`, `DetailPrint`, `Name`,
+`OutFile`, `InstallDir`, `RequestExecutionLevel`, `SetShellVarContext`, `Unicode`,
+`!include`, `!addincludedir`, `!define` and `!insertmacro`. Other built-ins retain
+name completion and provide a reference-chapter link. Documentation links open
+the official NSIS manual; rendering the popup requires no network access.
+
+Argument completion offers known flags and finite values at their corresponding
+positions, including registry roots and `MessageBox` flags separated by `|`.
+It supplements existing symbol completion and does not validate arbitrary values.
+
+Include-path completion searches the same directories, in the same order, as
+include navigation. It offers immediate files of any extension and subdirectories,
+preserves existing quote and separator styles, and quotes paths containing spaces.
+Select a directory and invoke completion again to continue within it. Paths
+requiring variable or define expansion do not receive literal file suggestions;
+variable and define completion still applies.
 
 ## Static analysis boundaries
 

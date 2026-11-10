@@ -53,7 +53,16 @@ object NsisIncludes {
 
     fun resolve(file: NsisFile, line: NsisLine, argument: NsisArgument): VirtualFile? {
         val name = argument.literal?.replace('\\', '/') ?: return null
-        val directory = file.virtualFile?.parent ?: return null
+        for (root in searchRoots(file, line)) {
+            ProgressManager.checkCanceled()
+            val found = findFrom(root, name)
+            if (found != null && !found.isDirectory) return found
+        }
+        return null
+    }
+
+    fun searchRoots(file: NsisFile, line: NsisLine): List<VirtualFile> {
+        val directory = file.virtualFile?.parent ?: return emptyList()
         val settings = NsisSettings.get(file.project).state
         val roots = buildList {
             add(directory.path)
@@ -66,13 +75,15 @@ object NsisIncludes {
                 absolute(file.project.basePath ?: directory.path, settings.sdkDirectory)?.let { add("$it/Include") }
             }
         }
-        for (root in roots) {
+        return roots.distinct().mapNotNull { root ->
             ProgressManager.checkCanceled()
-            val path = absolute(root, name) ?: continue
-            val found = directory.fileSystem.findFileByPath(path) ?: LocalFileSystem.getInstance().findFileByPath(path)
-            if (found != null && !found.isDirectory) return found
+            (directory.fileSystem.findFileByPath(root) ?: LocalFileSystem.getInstance().findFileByPath(root))?.takeIf { it.isDirectory }
         }
-        return null
+    }
+
+    fun findFrom(root: VirtualFile, name: String): VirtualFile? {
+        val path = absolute(root.path, name) ?: return null
+        return root.fileSystem.findFileByPath(path) ?: LocalFileSystem.getInstance().findFileByPath(path)
     }
 
     private fun absolute(root: String, child: String): String? {
