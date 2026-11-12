@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>dev.nsis.jetbrains</id>
     <name>NSIS Language Support</name>
-    <vendor>NSIS Language Support contributors</vendor>
+    <vendor>Keegan Witt</vendor>
     <description><![CDATA[
         Native editing support for NSIS installer scripts and headers: syntax highlighting,
         completion, declaration navigation, folding, structure view, and conservative diagnostics.
